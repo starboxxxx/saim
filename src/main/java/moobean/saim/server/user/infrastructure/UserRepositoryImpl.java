@@ -5,7 +5,6 @@ import moobean.saim.server.user.domain.User;
 import moobean.saim.server.user.infrastructure.entity.UserEntity;
 import moobean.saim.server.user.service.port.UserRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -28,5 +27,10 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User save(User user) {
         return userJpaRepository.save(UserEntity.from(user)).toModel();
+    }
+
+    @Override
+    public void delete(Long userId) {
+        userJpaRepository.deleteById(userId);
     }
 }

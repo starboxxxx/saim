@@ -10,6 +10,7 @@ import moobean.saim.server.global.BaseTimeEntity;
 import moobean.saim.server.user.domain.User;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,13 +62,14 @@ public class UserEntity extends BaseTimeEntity {
 
     private String healthIssues; // 건강 이슈
 
+    @Enumerated(EnumType.STRING)
     private Trainer trainer; // 트레이너 선생님
 
-    @OneToMany(mappedBy = "follower")
-    private List<FollowEntity> followingList;
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL)
+    private List<FollowEntity> followingList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "targetUser")
-    private List<FollowEntity> followerList;
+    @OneToMany(mappedBy = "targetUser", cascade = CascadeType.ALL)
+    private List<FollowEntity> followerList = new ArrayList<>();
 
     public static UserEntity from(User user) {
         UserEntity userEntity = new UserEntity();
@@ -86,6 +88,8 @@ public class UserEntity extends BaseTimeEntity {
         userEntity.exerciseMethod = user.getExerciseMethod();
         userEntity.exerciseGoals = user.getExerciseGoals();
         userEntity.healthIssues = user.getHealthIssues();
+
+        userEntity.trainer = user.getTrainer();
 
         userEntity.physical = Optional.ofNullable(user.getPhysical())
                 .map(PhysicalEntity::from)
@@ -112,6 +116,7 @@ public class UserEntity extends BaseTimeEntity {
                 .exerciseMethod(exerciseMethod)
                 .exerciseGoals(exerciseGoals)
                 .healthIssues(healthIssues)
+                .trainer(trainer)
                 .physical(physical != null ? physical.toModel() : null)
                 .profile(profile != null ? profile.toModel() : null)
                 .build();

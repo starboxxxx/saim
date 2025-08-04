@@ -5,6 +5,7 @@ import lombok.Getter;
 import moobean.saim.server.community.domain.Profile;
 import moobean.saim.server.oauth.domain.OAuthUserInfo;
 import moobean.saim.server.user.infrastructure.entity.ExerciseLevel;
+import moobean.saim.server.user.infrastructure.entity.Trainer;
 import moobean.saim.server.user.infrastructure.entity.UserRole;
 
 import java.time.LocalDate;
@@ -38,6 +39,8 @@ public class User {
 
     private final String healthIssues;
 
+    private Trainer trainer;
+
     private final Physical physical;
 
     private Profile profile;
@@ -47,7 +50,9 @@ public class User {
                 String phoneNumber, LocalDate birth,
                 ExerciseLevel exerciseLevel, Integer exerciseFrequency,
                 String socialId, String provider, UserRole userRole,
-                Physical physical, Profile profile, String exerciseMethod, String exerciseGoals, String healthIssues) {
+                Physical physical, Profile profile, String exerciseMethod,
+                String exerciseGoals, String healthIssues,
+                Trainer trainer) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -61,6 +66,7 @@ public class User {
         this.exerciseMethod = exerciseMethod;
         this.exerciseGoals = exerciseGoals;
         this.healthIssues = healthIssues;
+        this.trainer = trainer;
         this.physical = physical;
         this.profile = profile;
     }
@@ -89,6 +95,10 @@ public class User {
     public void updateNameAndEmail(String name, String email) {
         this.name = name;
         this.email = email;
+    }
+
+    public void updateTrainer(Trainer trainer) {
+        this.trainer = trainer;
     }
 
     public void updateProfile(Profile profile) {
