@@ -5,8 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import moobean.saim.server.community.controller.port.FollowService;
 import moobean.saim.server.community.controller.port.ProfileService;
 import moobean.saim.server.community.controller.request.UpdateProfileRequest;
+import moobean.saim.server.community.controller.request.UpdateTrainerRequest;
 import moobean.saim.server.community.controller.response.MyPageProfileResponse;
 import moobean.saim.server.community.controller.response.ProfileResponse;
+import moobean.saim.server.community.controller.response.TrainerResponse;
 import moobean.saim.server.community.domain.Profile;
 import moobean.saim.server.community.service.mapper.ProfileResponseMapper;
 import moobean.saim.server.community.service.port.ProfileRepository;
@@ -14,6 +16,7 @@ import moobean.saim.server.global.exception.ApplicationException;
 import moobean.saim.server.global.exception.code.ProfileErrorCode;
 import moobean.saim.server.global.exception.code.UserErrorCode;
 import moobean.saim.server.user.domain.User;
+import moobean.saim.server.user.infrastructure.entity.Trainer;
 import moobean.saim.server.user.service.port.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +54,25 @@ public class ProfileServiceImpl implements ProfileService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApplicationException(UserErrorCode.USER_NOT_FOUND));
         return ProfileResponseMapper.toMyPageProfileResponse(profile, user);
+    }
+
+    @Override
+    public TrainerResponse getTrainer(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ApplicationException(UserErrorCode.USER_NOT_FOUND));
+
+        return ProfileResponseMapper.toTrainerResponse(user);
+    }
+
+    @Transactional
+    @Override
+    public void updateTrainer(Long userId, UpdateTrainerRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ApplicationException(UserErrorCode.USER_NOT_FOUND));
+
+        user.updateTrainer(request.trainer());
+
+        userRepository.save(user);
     }
 
     @Transactional

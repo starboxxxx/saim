@@ -2,6 +2,7 @@ package moobean.saim.server.community.service.mapper;
 
 import moobean.saim.server.community.controller.response.MyPageProfileResponse;
 import moobean.saim.server.community.controller.response.ProfileResponse;
+import moobean.saim.server.community.controller.response.TrainerResponse;
 import moobean.saim.server.community.domain.Profile;
 import moobean.saim.server.user.domain.User;
 
@@ -25,6 +26,12 @@ public class ProfileResponseMapper {
                 user.getName(),
                 user.getEmail(),
                 profile.getIntroduce()
+        );
+    }
+
+    public static TrainerResponse toTrainerResponse(User user) {
+        return new TrainerResponse(
+                user.getTrainer().getDescription()
         );
     }
 
