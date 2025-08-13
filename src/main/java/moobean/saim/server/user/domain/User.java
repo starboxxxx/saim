@@ -2,7 +2,7 @@ package moobean.saim.server.user.domain;
 
 import lombok.Builder;
 import lombok.Getter;
-import moobean.saim.server.community.domain.Profile;
+import moobean.saim.server.community.profile.domain.Profile;
 import moobean.saim.server.oauth.domain.OAuthUserInfo;
 import moobean.saim.server.user.infrastructure.entity.ExerciseLevel;
 import moobean.saim.server.user.infrastructure.entity.Trainer;

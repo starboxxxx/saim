@@ -4,8 +4,11 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import moobean.saim.server.community.infrastructure.entity.FollowEntity;
-import moobean.saim.server.community.infrastructure.entity.ProfileEntity;
+import moobean.saim.server.community.board.article.infrastructure.entity.ArticleEntity;
+import moobean.saim.server.community.board.comment.infrastructure.entity.CommentEntity;
+import moobean.saim.server.community.clubMember.infrastructure.entity.ClubMemberEntity;
+import moobean.saim.server.community.follow.infrastructure.entity.FollowEntity;
+import moobean.saim.server.community.profile.infrastructure.entity.ProfileEntity;
 import moobean.saim.server.global.BaseTimeEntity;
 import moobean.saim.server.user.domain.User;
 
@@ -48,14 +51,6 @@ public class UserEntity extends BaseTimeEntity {
     @Column(nullable = false)
     private UserRole userRole;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="physical_id")
-    private PhysicalEntity physical;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "profile_id", unique = true) // 외래키 컬럼이 USER 테이블에 생김
-    private ProfileEntity profile;
-
     private String exerciseMethod; // 운동방법
 
     private String exerciseGoals; // 운동 목표
@@ -70,6 +65,24 @@ public class UserEntity extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "targetUser", cascade = CascadeType.ALL)
     private List<FollowEntity> followerList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "articleWriter", cascade = CascadeType.ALL)
+    private List<ArticleEntity> articleList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "commentWriter", cascade = CascadeType.ALL)
+    private List<CommentEntity> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<ClubMemberEntity> clubMemberList = new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="physical_id")
+    private PhysicalEntity physical;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "profile_id", unique = true) // 외래키 컬럼이 USER 테이블에 생김
+    private ProfileEntity profile;
+
 
     public static UserEntity from(User user) {
         UserEntity userEntity = new UserEntity();
