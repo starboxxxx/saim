@@ -3,7 +3,7 @@ package moobean.saim.server.oauth.service;
 import moobean.saim.server.oauth.domain.OAuthUserInfo;
 import moobean.saim.server.oauth.controller.request.OAuthLoginRequest;
 import moobean.saim.server.oauth.domain.NaverUserInfo;
-import moobean.saim.server.user.service.port.UserRepository;
+import moobean.saim.server.user.controller.port.FindUserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -25,8 +25,8 @@ public class NaverOAuthService extends OAuthServiceImpl {
     @Value("${oauth.naver.user-info-uri}")
     private String userInfoUrl;
 
-    public NaverOAuthService(UserRepository userRepository) {
-        super(userRepository);
+    public NaverOAuthService(FindUserService userService) {
+        super(userService);
     }
 
     @Override

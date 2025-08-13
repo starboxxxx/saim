@@ -1,14 +1,11 @@
 package moobean.saim.server.oauth.service;
 
 import lombok.RequiredArgsConstructor;
-import moobean.saim.server.community.domain.Profile;
-import moobean.saim.server.community.service.port.ProfileRepository;
 import moobean.saim.server.oauth.controller.port.OAuthService;
 import moobean.saim.server.oauth.domain.OAuthUserInfo;
 import moobean.saim.server.oauth.controller.request.OAuthLoginRequest;
+import moobean.saim.server.user.controller.port.FindUserService;
 import moobean.saim.server.user.domain.User;
-import moobean.saim.server.user.infrastructure.entity.UserRole;
-import moobean.saim.server.user.service.port.UserRepository;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
@@ -21,7 +18,7 @@ import java.util.Map;
 public abstract class OAuthServiceImpl implements OAuthService {
 
     protected final RestTemplate restTemplate = new RestTemplate();
-    protected final UserRepository userRepository;
+    protected final FindUserService userService;
 
     @Override
     public User authenticate(OAuthLoginRequest request) {
@@ -30,8 +27,7 @@ public abstract class OAuthServiceImpl implements OAuthService {
         Map<String, Object> attributes = getUserAttributes(accessToken);
         OAuthUserInfo userInfo = createUserInfo(attributes);
 
-        return userRepository.findBySocialId(userInfo.getId())
-                .orElseGet(() -> userRepository.save(User.create(userInfo)));
+        return userService.findBySocialId(userInfo);
     }
 
     protected String getAccessToken(MultiValueMap<String, String> params) {

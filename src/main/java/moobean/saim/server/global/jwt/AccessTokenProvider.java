@@ -6,11 +6,10 @@ import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import moobean.saim.server.global.exception.JwtException;
 import moobean.saim.server.global.exception.code.AuthErrorCode;
-import moobean.saim.server.global.jwt.annoation.AccessTokenStrategy;
+import moobean.saim.server.global.annoation.AccessTokenStrategy;
 import moobean.saim.server.global.jwt.claim.AccessTokenClaim;
 import moobean.saim.server.global.jwt.claim.JwtClaims;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
