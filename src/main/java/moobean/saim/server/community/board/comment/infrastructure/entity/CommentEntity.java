@@ -6,8 +6,13 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import moobean.saim.server.community.board.article.infrastructure.entity.ArticleEntity;
 import moobean.saim.server.community.board.comment.domain.Comment;
+import moobean.saim.server.community.board.recommend.infrastructure.entity.RecommendEntity;
+import moobean.saim.server.community.follow.infrastructure.entity.FollowEntity;
 import moobean.saim.server.global.BaseTimeEntity;
 import moobean.saim.server.user.infrastructure.entity.UserEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "COMMENT")
@@ -30,6 +35,9 @@ public class CommentEntity extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity commentWriter;
+
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
+    private List<RecommendEntity> recommendList = new ArrayList<>();
 
     public static CommentEntity from(Comment comment) {
         CommentEntity entity = new CommentEntity();

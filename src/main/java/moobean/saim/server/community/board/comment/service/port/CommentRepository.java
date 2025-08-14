@@ -8,5 +8,7 @@ public interface CommentRepository {
 
     List<Comment> findComments(Long articleId);
 
+    Comment findComment(Long commentId);
+
     void createComment(Comment comment);
 }

@@ -54,6 +54,7 @@ public class ClubMasterController {
         return ResponseEntity.ok(findClubMemberService.findInviteMemberList(userInfo.user().getId(), clubId));
     }
 
+    //todo: 회원 초대시 알림으로 전송, 여기서 승인 or 거절
     @Operation(summary = "클럽 회원 초대")
     @PostMapping("/invite")
     public ResponseEntity<Void> inviteMember(@AuthenticationPrincipal CustomUserDetails userInfo,

@@ -18,13 +18,6 @@ public class ClubMemberResponseMapper {
         );
     }
 
-    public static InviteMemberListResponse toInviteMemberListResponse(User user) {
-        return new InviteMemberListResponse(
-                user.getId(),
-                user.getName()
-        );
-    }
-
     public static MasterClubMemberListResponse toMasterClubMemberListResponse(ClubMember member) {
         return new MasterClubMemberListResponse(
                 member.getUser().getId(),

@@ -1,6 +1,7 @@
 package moobean.saim.server.user.infrastructure;
 
 import lombok.RequiredArgsConstructor;
+import moobean.saim.server.community.clubMember.infrastructure.entity.ClubMemberStatus;
 import moobean.saim.server.global.exception.ApplicationException;
 import moobean.saim.server.global.exception.code.UserErrorCode;
 import moobean.saim.server.user.domain.User;
@@ -30,7 +31,8 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> findUserNotInClub(Long clubId) {
-        return userJpaRepository.findUsersNotInClub(clubId).stream()
+        return userJpaRepository.findUsersNotInClub(clubId, ClubMemberStatus.PENDING)
+                .stream()
                 .map(UserEntity::toModel)
                 .toList();
     }

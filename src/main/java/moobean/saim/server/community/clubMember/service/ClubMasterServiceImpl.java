@@ -50,7 +50,10 @@ public class ClubMasterServiceImpl implements FindClubMasterService, InviteClubM
     public List<InviteMemberListResponse> findInviteMemberList(Long userId, Long clubId) {
         clubMemberService.checkMaster(userId, clubId);
         return userService.findUserNotInClub(clubId).stream()
-                .map(ClubMemberResponseMapper::toInviteMemberListResponse)
+                .map(user -> {
+                    boolean isPending = clubMemberService.checkPendingMember(user.getId(), clubId);
+                    return new InviteMemberListResponse(user.getId(), user.getName(), isPending);
+                })
                 .collect(Collectors.toList());
     }
 

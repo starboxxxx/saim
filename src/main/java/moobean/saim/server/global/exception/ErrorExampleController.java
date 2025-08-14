@@ -61,4 +61,16 @@ public class ErrorExampleController {
     @Operation(summary = "팔로우 도메인 관련 에러 코드 나열")
     @ApiErrorCodes(FollowErrorCode.class)
     public void getFollowErrorCode(){}
+
+    @GetMapping("/comment")
+    @DevelopOnlyApi
+    @Operation(summary = "댓글 도메인 관련 에러 코드 나열")
+    @ApiErrorCodes(CommentErrorCode.class)
+    public void getCommentErrorCode(){}
+
+    @GetMapping("/recommend")
+    @DevelopOnlyApi
+    @Operation(summary = "추천 도메인 관련 에러 코드 나열")
+    @ApiErrorCodes(RecommendErrorCode.class)
+    public void getRecommendErrorCode(){}
 }

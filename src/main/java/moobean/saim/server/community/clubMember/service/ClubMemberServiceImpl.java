@@ -10,10 +10,13 @@ import moobean.saim.server.community.clubMember.controller.response.ClubMemberRe
 import moobean.saim.server.community.clubMember.domain.ClubMember;
 import moobean.saim.server.community.clubMember.domain.mapper.ClubMemberResponseMapper;
 import moobean.saim.server.community.clubMember.infrastructure.entity.ClubMemberStatus;
+import moobean.saim.server.community.clubMember.infrastructure.entity.ClubRole;
 import moobean.saim.server.community.clubMember.service.domain.ClubMemberService;
 import moobean.saim.server.community.club.service.domain.ClubService;
 import moobean.saim.server.community.clubMember.service.port.ClubMemberRepository;
 import moobean.saim.server.community.follow.service.domain.FollowService;
+import moobean.saim.server.global.exception.ApplicationException;
+import moobean.saim.server.global.exception.code.ClubMemberErrorCode;
 import moobean.saim.server.user.domain.User;
 import moobean.saim.server.user.service.domain.UserService;
 import org.springframework.stereotype.Service;
@@ -75,8 +78,12 @@ public class ClubMemberServiceImpl implements FindClubMemberService, CreateClubM
 
     @Override
     public void leaveClubMember(Long userId, Long clubId) {
-        ClubMember clubMember = clubMemberRepository.findByUserAndClub(userId, clubId);
 
+        if (clubMemberService.isMaster(userId, clubId)) {
+            throw new ApplicationException(ClubMemberErrorCode.CAPTAIN_NOT_LEAVE);
+        }
+
+        ClubMember clubMember = clubMemberRepository.findByUserAndClub(userId, clubId);
         clubMemberRepository.delete(clubMember.getId());
 
         Club club = clubService.find(clubId);

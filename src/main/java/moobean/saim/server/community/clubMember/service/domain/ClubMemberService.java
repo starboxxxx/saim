@@ -3,6 +3,7 @@ package moobean.saim.server.community.clubMember.service.domain;
 import lombok.RequiredArgsConstructor;
 import moobean.saim.server.community.club.domain.Club;
 import moobean.saim.server.community.clubMember.domain.ClubMember;
+import moobean.saim.server.community.clubMember.infrastructure.entity.ClubMemberStatus;
 import moobean.saim.server.community.clubMember.infrastructure.entity.ClubRole;
 import moobean.saim.server.community.club.service.domain.ClubService;
 import moobean.saim.server.community.clubMember.service.port.ClubMemberRepository;
@@ -10,6 +11,7 @@ import moobean.saim.server.global.exception.ApplicationException;
 import moobean.saim.server.global.exception.code.ClubMemberErrorCode;
 import moobean.saim.server.user.domain.User;
 import moobean.saim.server.user.service.domain.UserService;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,6 +26,18 @@ public class ClubMemberService {
         ClubMember clubMember = clubMemberRepository.findByUserAndClub(userId, clubId);
 
         return clubMember.getClubRole() == ClubRole.MASTER;
+    }
+
+    public Boolean checkPendingMember(Long userId, Long clubId) {
+        Boolean isMember = clubMemberRepository.checkClubMember(userId, clubId);
+
+        if (!isMember) {
+            return false;
+        }
+        else {
+            ClubMember clubMember = clubMemberRepository.findByUserAndClub(userId, clubId);
+            return clubMember.getStatus() == ClubMemberStatus.PENDING;
+        }
     }
 
     public void createMaster(Long clubId, Long userId) {
