@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import moobean.saim.server.community.board.article.infrastructure.entity.ArticleEntity;
 import moobean.saim.server.community.board.comment.infrastructure.entity.CommentEntity;
+import moobean.saim.server.community.board.recommend.infrastructure.entity.RecommendEntity;
 import moobean.saim.server.community.clubMember.infrastructure.entity.ClubMemberEntity;
 import moobean.saim.server.community.follow.infrastructure.entity.FollowEntity;
 import moobean.saim.server.community.profile.infrastructure.entity.ProfileEntity;
@@ -74,6 +75,9 @@ public class UserEntity extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ClubMemberEntity> clubMemberList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "recommender", cascade = CascadeType.ALL)
+    private List<RecommendEntity> recommendList = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="physical_id")

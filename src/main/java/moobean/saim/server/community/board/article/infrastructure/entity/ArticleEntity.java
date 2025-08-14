@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import moobean.saim.server.community.board.article.domain.Article;
 import moobean.saim.server.community.board.comment.infrastructure.entity.CommentEntity;
+import moobean.saim.server.community.board.recommend.infrastructure.entity.RecommendEntity;
 import moobean.saim.server.community.club.infrastructure.entity.ClubEntity;
 import moobean.saim.server.community.follow.infrastructure.entity.FollowEntity;
 import moobean.saim.server.global.BaseTimeEntity;
@@ -48,6 +49,9 @@ public class ArticleEntity extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private List<CommentEntity> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    private List<RecommendEntity> recommendList = new ArrayList<>();
 
     public static ArticleEntity from(Article article) {
         ArticleEntity entity = new ArticleEntity();
